@@ -1,3 +1,6 @@
+## This function assume the keywords for "abstract" and "keywords"
+# exists in the paper
+
 from tika import parser
 import time
 import os
