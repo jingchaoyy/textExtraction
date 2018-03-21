@@ -33,7 +33,7 @@ def getString(contS):
             #         keyWd.append(j)
             #     else:
             #         break
-
+            
         if "ABSTRACT" in i or "Abstract—" in i:
             # find the start point using keyword "Abstract", some time it's "Abstract—"
             for j in contS[contS.index(i) + 1:len(contS)]:
