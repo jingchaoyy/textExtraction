@@ -38,7 +38,7 @@ SENTENCES_COUNT = 5
 if __name__ == "__main__":
     # fPath = "/Users/YJccccc/PycharmProjects/tika/data/Untitled.txt"
     # parser = PlaintextParser.from_file(fPath, Tokenizer(LANGUAGE))
-    fPath = "/Users/YJccccc/PycharmProjects/tika/data/USING INFORMATION FROM RENDEZVOUS MISSIONS FOR BEST-CASE APPRAISALS OF IMPACT DAMAGE TO PLANET EARTH .pdf"
+    fPath = "data/USING INFORMATION FROM RENDEZVOUS MISSIONS FOR BEST-CASE APPRAISALS OF IMPACT DAMAGE TO PLANET EARTH .pdf"
     str = rFile(fPath)
     parser = PlaintextParser.from_string(str, Tokenizer(LANGUAGE))
     stemmer = Stemmer(LANGUAGE)
