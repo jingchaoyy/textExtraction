@@ -3,11 +3,9 @@
 
 from tika import parser
 import time
-import os
+import os.path
 
 tStart = time.time()
-
-pdfTest = 'USING INFORMATION FROM RENDEZVOUS MISSIONS FOR BEST-CASE APPRAISALS OF IMPACT DAMAGE TO PLANET EARTH .pdf'
 
 # read file and return all content
 def rFile(fPath):
@@ -18,11 +16,6 @@ def rFile(fPath):
     # print (parsed)
     return cont
 
-# read though a file and extract content using Tika package
-content = rFile(pdfTest)
-# separate extracted content by line break
-contSplit = content.split("\n")
-
 def getString(contS):
     # initiate keyword list and abstract list
     keyWd,abstr = [], []
@@ -30,16 +23,16 @@ def getString(contS):
     for i in contS:
         # check if specified string is in the list
         if "Keywords:" in i:
-            # keyWd = contS[i]
-            # print(keyWd)
-            # find the start point using keyword "Keywords:"
-            keyStart = contS.index(i)
-            # for loop to allocate all keywords, until next line break symbol
-            for j in contS[keyStart:len(contS)]:
-                if j != ' ':
-                    keyWd.append(j)
-                else:
-                    break
+            keyWd.append(i)
+            # # print(keyWd)
+            # # find the start point using keyword "Keywords:"
+            # keyStart = contS.index(i)
+            # # for loop to allocate all keywords, until next line break symbol
+            # for j in contS[keyStart:len(contS)]:
+            #     if j != ' ':
+            #         keyWd.append(j)
+            #     else:
+            #         break
 
         if "ABSTRACT" in i or "Abstract—" in i:
             # find the start point using keyword "Abstract", some time it's "Abstract—"
@@ -57,31 +50,33 @@ def getString(contS):
 
     return keyWd, abstr
 
+if __name__ == "__main__":
+    fname = input("Input your file path: ")
+    # e.g. data/USING INFORMATION FROM RENDEZVOUS MISSIONS FOR BEST-CASE APPRAISALS OF IMPACT DAMAGE TO PLANET EARTH .pdf
+    if os.path.exists(fname):
+        # read though a file and extract content using Tika package
+        content = rFile(fname)
+        # separate extracted content by line break
+        contSplit = content.split("\n")
+        # print(contSplit)
 
-# for filename in os.listdir("/Users/YJccccc/PycharmProjects/tika/data"):
-#     if filename.endswith(".pdf"):
-#         # read though a file and extract content using Tika package
-#         content = rFile("/Users/YJccccc/PycharmProjects/tika/data/"+filename)
-#         # separate extracted content by line break
-#         contSplit = content.split("\n")
-#         test = getString(contSplit)
+        texts = getString(contSplit)
 
+        # merge strings in the list to one
+        keyW = ' '.join(texts[0])
+        strAbstract = ' '.join(texts[1])
 
-texts = getString(contSplit)
+        if keyW == '':
+            print("no keywords found")
+        else:
+            print(keyW)
+        if strAbstract == '':
+            print("no abstract found")
+        else:
+            print("Abstract:", strAbstract)
 
-# merge strings in the list to one
-keyW = ' '.join(texts[0])
-strAbstract = ' '.join(texts[1])
-
-if keyW =='':
-    print("no keywords found")
-else:
-    print(keyW)
-if strAbstract =='':
-    print("no abstract found")
-else:
-    print("\nAbstract:", strAbstract)
-
+    else:
+        print("No such file")
 
 tEnd = time.time()
 print("\nTotal time: ", tEnd - tStart, "seconds")
